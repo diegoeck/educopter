@@ -18,12 +18,13 @@
 // #define ITG3200_SMPLRT_DIV 7  //8000Hz
 //#define ITG3200_DLPF_CFG   0
 #define ITG3200_SMPLRT_DIV 0  //8000Hz
-#define ITG3200_DLPF_CFG   4
+#define ITG3200_DLPF_CFG   4 // Antes eu tinha colocado 4
 
 #define BMA180_ADDRESS 0x40
 
 #define FOSC 16000000 // Clock Speed
 #define BAUD 57600
+
 #define MYUBRR FOSC/16/BAUD-1
 
 #define MASK_P2 (1<<2)
@@ -40,6 +41,11 @@ uint8_t P7 = 0;//Status of pin 7 H or L
 
 
 float anglef[3];
+float rv[2];
+
+float erroa[2];
+float errog[2];
+
 int angle[2];
 
 
@@ -60,9 +66,9 @@ int ref[4]={0,0,0,0};
 int pino[4]={0,0,0,0};
 int pid[3]={0,0,0};
 
-float erro1[3]={0,0,0};
-float erro2[3]={0,0,0};
-float erro3[3]={0,0,0};
+//float erro1[3]={0,0,0};
+//float erro2[3]={0,0,0};
+//float erro3[3]={0,0,0};
 
 
 uint8_t rawADC[6];
@@ -126,7 +132,7 @@ void ACC_init () {
     uint8_t control = i2c_readReg(BMA180_ADDRESS, 0x20);
     control = control & 0x0F;        // save tcs register
     //control = control | (0x01 << 4); // register: bw_tcs reg: bits 4-7 to set bw -- value: set low pass filter to 20Hz
-    control = control | (0x07 << 4); // set low pass filter to 10Hz (bits value = 0000xxxx)
+    control = control | (0x00 << 4); // set low pass filter to 10Hz (bits value = 0000xxxx)
     i2c_writeReg(BMA180_ADDRESS, 0x20, control);
     
     control = i2c_readReg(BMA180_ADDRESS, 0x30);
@@ -190,7 +196,7 @@ void angulos() {
 
 
     t[0]=sqrt(square((float)accADC[2])+square((float)accADC[1]));
-    t[1]=sqrt(square((float)accADC[2])+square((float)accADC[2]));
+    t[1]=sqrt(square((float)accADC[2])+square((float)accADC[0]));
 
     if(accADC[2]<0){
         t[1]=-t[1];
@@ -199,7 +205,7 @@ void angulos() {
     angle[0]=_atan2(accADC[0],t[0]);
     angle[1]=_atan2(accADC[1],t[1]);
 
-  
+
     
     t[0]=(float)gyroADC[0]*cos(anglef[1]/572.9)/sqrt(1-square(sin(anglef[0]/572.9)*sin(anglef[1]/572.9)));
     t[1]=(float)gyroADC[2]*sin(anglef[1]/572.9)/sqrt(1-square(sin(anglef[0]/572.9)*cos(anglef[1]/572.9)));
@@ -213,13 +219,13 @@ void angulos() {
 
     anglef[1]=0.01*(float)angle[1]+0.99*anglef[1]+0.02754*(t[0]);
 
-    
+
     
    // v1(i+1)=0.01*aa(i)+0.99*v1(i)+0.99*( VarName1(i)*cos(v2(i))/sqrt(1-(sin(v1(i))*sin(v2(i)))^2)+VarName3(i)*sin(v2(i))/sqrt(1-(sin(v1(i))*cos(v2(i)))^2) )/m*pi/2 ;
    // v2(i+1)=0.01*bb(i)+0.99*v2(i)+0.99*( VarName2(i)*cos(v1(i))/sqrt(1+(sin(v2(i))*sin(v1(i)))^2)-VarName3(i)*sin(v1(i))/sqrt(1-(sin(v2(i))*cos(v1(i)))^2) )/m*pi/2 ;
     
-
 /*
+
  angle[0]=_atan2(accADC[0],t[0]);
  anglef[0]=0.01*(float)angle[0]+0.02754*(float)gyroADC[0]+0.99*anglef[0];
  
@@ -238,13 +244,44 @@ void angulos() {
 
 void controle() {
 
-  //pid[0]=((ref[0]-(int)anglef[0])*2-gyroADC[0])*0.3;
-  //pid[1]=((ref[1]-(int)anglef[1])*2-gyroADC[1])*0.3;
+    float e;
 
-    pid[0]=((ref[0]-(int)anglef[0])*2-gyroADC[0])*0.2;
-    pid[1]=((ref[1]-(int)anglef[1])*2-gyroADC[1])*0.2;
+    //pid[0]=((ref[0]-(int)anglef[0])*2-gyroADC[0])*0.3;
+    //pid[1]=((ref[1]-(int)anglef[1])*2-gyroADC[1])*0.3;
 
+
+    e=(ref[0]-anglef[0]);
+    rv[0]=rv[0]+4.864*e - 4.813*erroa[0];
+    erroa[0]=e;
+
+    if (rv[0]>1000){
+        rv[0]=1000;
+    }
+    if (rv[0]<-1000){
+        rv[0]=-1000;
+    }
     
+    e=rv[0]-gyroADC[0];
+    pid[0]= 2.456*e-2.361*errog[0];
+    errog[0]=e;
+           
+    e=(ref[1]-anglef[1]);
+    rv[1]=rv[1]+    4.864*e - 4.813*erroa[1];
+    erroa[1]=e;
+    
+    if (rv[1]>1000){
+        rv[1]=1000;
+    }
+    if (rv[1]<-1000){
+        rv[1]=-1000;
+    }
+
+    e=rv[1]-gyroADC[1];
+    pid[1]= 2.456*e-2.361*errog[1];
+    errog[1]=e;
+
+           
+           
     pid[2]=ref[3]-gyroADC[2];
   
 }
@@ -360,7 +397,7 @@ void setup() {
     
 
     
-    uart0_init(MYUBRR);
+    uart_init(MYUBRR);
 
     stdout = &uart_output;
     
@@ -497,6 +534,7 @@ void loop() {
                 calibra_giro_i[0]=(int)calibra_giro[0];
                 calibra_giro_i[1]=(int)calibra_giro[1];
                 calibra_giro_i[2]=(int)calibra_giro[2];
+                       // printf("AT+BAUD7");
             }
             
             motor[0]=0;
@@ -523,6 +561,7 @@ void loop() {
                 calibra_giro_i[0]=0;
                 calibra_giro_i[1]=0;
                 calibra_giro_i[2]=0;
+                                    //    printf("AT");
             }
             
             
@@ -554,19 +593,19 @@ void loop() {
 
  
 */
-        printf("%d\t",ref[2]);
+        
+        
         printf("%d\t",ref[0]);
         printf("%d\t",ref[1]);
-
-        printf("%d\t",(int)anglef[0]);
-        printf("%d\t",(int)anglef[1]);
-
-//        printf("%d\t",(int)angle[0]);
-//        printf("%d\t",(int)angle[1]);
+        printf("%d\t",ref[3]);
 
         printf("%d\t",gyroADC[0]);
-        printf("%d\n",gyroADC[1]);
-//        printf("%d\n",gyroADC[2]);
+        printf("%d\t",gyroADC[1]);
+        printf("%d\t",gyroADC[2]);
+        
+        printf("%d\t",(int)anglef[0]);
+        printf("%d\n",(int)anglef[1]);
+
         
     }
 }
