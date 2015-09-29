@@ -205,37 +205,32 @@ void angulos() {
     angle[0]=_atan2(accADC[0],t[0]);
     angle[1]=_atan2(accADC[1],t[1]);
 
-
+/*
     
-    t[0]=(float)gyroADC[0]*cos(anglef[1]/572.9)/sqrt(1-square(sin(anglef[0]/572.9)*sin(anglef[1]/572.9)));
-    t[1]=(float)gyroADC[2]*sin(anglef[1]/572.9)/sqrt(1-square(sin(anglef[0]/572.9)*cos(anglef[1]/572.9)));
+    t[0]=(float)gyroADC[0]*cos(anglef[1]/572.9)/sqrt(  1-square( sin(anglef[0]/572.9)*sin(anglef[1]/572.9)  )   );
+    t[1]=(float)gyroADC[2]*sin(anglef[1]/572.9)/sqrt(  1-square( sin(anglef[0]/572.9)*cos(anglef[1]/572.9)  )   );
     t[0]=t[0]+t[1];
     
     anglef[0]=0.01*(float)angle[0]+0.99*anglef[0]+0.02754*(t[0]);
     
-    t[0]=(float)gyroADC[1]*cos(anglef[0]/572.9)/sqrt(1+square(sin(anglef[1]/572.9)*sin(anglef[0]/572.9)));
-    t[1]=(float)gyroADC[2]*sin(anglef[0]/572.9)/sqrt(1-square(sin(anglef[1]/572.9)*cos(anglef[0]/572.9)));
+    t[0]=(float)gyroADC[1]*cos(anglef[0]/572.9)/sqrt(  1+square(sin(anglef[1]/572.9)*sin(anglef[0]/572.9)   )   );
+    t[1]=(float)gyroADC[2]*sin(anglef[0]/572.9)/sqrt(  1-square(sin(anglef[1]/572.9)*cos(anglef[0]/572.9)   )   );
     t[0]=t[0]-t[1];
 
     anglef[1]=0.01*(float)angle[1]+0.99*anglef[1]+0.02754*(t[0]);
 
-
-    
-   // v1(i+1)=0.01*aa(i)+0.99*v1(i)+0.99*( VarName1(i)*cos(v2(i))/sqrt(1-(sin(v1(i))*sin(v2(i)))^2)+VarName3(i)*sin(v2(i))/sqrt(1-(sin(v1(i))*cos(v2(i)))^2) )/m*pi/2 ;
-   // v2(i+1)=0.01*bb(i)+0.99*v2(i)+0.99*( VarName2(i)*cos(v1(i))/sqrt(1+(sin(v2(i))*sin(v1(i)))^2)-VarName3(i)*sin(v1(i))/sqrt(1-(sin(v2(i))*cos(v1(i)))^2) )/m*pi/2 ;
-    
-/*
-
- angle[0]=_atan2(accADC[0],t[0]);
- anglef[0]=0.01*(float)angle[0]+0.02754*(float)gyroADC[0]+0.99*anglef[0];
  
- angle[1]=_atan2(accADC[1],t[1]);
- anglef[1]=0.01*(float)angle[1]+0.02754*(float)gyroADC[1]+0.99*anglef[1];
+    // Matlab code
+    // v1(i+1)=0.01*aa(i)+0.99*v1(i)+0.99*( VarName1(i)*cos(v2(i))/sqrt(1-(sin(v1(i))*sin(v2(i)))^2)+VarName3(i)*sin(v2(i))/sqrt(1-(sin(v1(i))*cos(v2(i)))^2) )/m*pi/2 ;
+    // v2(i+1)=0.01*bb(i)+0.99*v2(i)+0.99*( VarName2(i)*cos(v1(i))/sqrt(1+(sin(v2(i))*sin(v1(i)))^2)-VarName3(i)*sin(v1(i))/sqrt(1-(sin(v2(i))*cos(v1(i)))^2) )/m*pi/2 ;
+ */
 
-*/
     
-//    2000/8192*0.01*10 = 0.024414 //Multiwii *0.99
-//    4/14.375*0.01*10  = 0.02781  //Datasheer *0.99
+    anglef[0]=0.01*(float)angle[0]+0.02754*(float)gyroADC[0]+0.99*anglef[0];
+    anglef[1]=0.01*(float)angle[1]+0.02754*(float)gyroADC[1]+0.99*anglef[1];
+
+    // 2000/8192*0.01*10 = 0.024414 //Multiwii *0.99
+    // 4/14.375*0.01*10  = 0.02781  //Datasheer *0.99
 }
 
 
@@ -245,13 +240,17 @@ void angulos() {
 void controle() {
 
     float e;
+    
+    pid[2]=(ref[3]-gyroADC[2]);
 
-    //pid[0]=((ref[0]-(int)anglef[0])*2-gyroADC[0])*0.3;
-    //pid[1]=((ref[1]-(int)anglef[1])*2-gyroADC[1])*0.3;
+    pid[0]=((ref[0]-(int)anglef[0])*2-gyroADC[0])*0.3;
+    pid[1]=((ref[1]-(int)anglef[1])*2-gyroADC[1])*0.3;
 
-
+/*
+    
     e=(ref[0]-anglef[0]);
-    rv[0]=rv[0]+4.864*e - 4.813*erroa[0];
+//    rv[0]=rv[0]+4.864*e - 4.813*erroa[0];
+    rv[0]=1.5*e;
     erroa[0]=e;
 
     if (rv[0]>1000){
@@ -262,11 +261,17 @@ void controle() {
     }
     
     e=rv[0]-gyroADC[0];
-    pid[0]= 2.456*e-2.361*errog[0];
+//    pid[0]= 2.456*e-2.361*errog[0];
+    pid[0]= 0.3*e;
     errog[0]=e;
-           
+
+    
+
+    
+    
     e=(ref[1]-anglef[1]);
-    rv[1]=rv[1]+    4.864*e - 4.813*erroa[1];
+//    rv[1]=rv[1]+    4.864*e - 4.813*erroa[1];
+    rv[1]=1.5*e;
     erroa[1]=e;
     
     if (rv[1]>1000){
@@ -277,12 +282,12 @@ void controle() {
     }
 
     e=rv[1]-gyroADC[1];
-    pid[1]= 2.456*e-2.361*errog[1];
+//    pid[1]= 2.456*e-2.361*errog[1];
+    pid[1]= 0.3*e;
     errog[1]=e;
 
+*/
            
-           
-    pid[2]=ref[3]-gyroADC[2];
   
 }
 
@@ -527,7 +532,7 @@ void loop() {
         if(armed==0)
         {
             
-            if((ref[2]<10) & (ref[3]>450))      carmed++;
+            if((ref[2]<10) & (ref[3]>390))      carmed++;
             
             if(carmed==50){
                 armed=1;
@@ -553,7 +558,7 @@ void loop() {
         else
         {
             
-            if((ref[2]<10) & (ref[3]<-450))    carmed--;
+            if((ref[2]<10) & (ref[3]<-390))    carmed--;
             
             if(carmed==0)
             {
@@ -597,6 +602,7 @@ void loop() {
         
         printf("%d\t",ref[0]);
         printf("%d\t",ref[1]);
+        printf("%d\t",ref[2]);
         printf("%d\t",ref[3]);
 
         printf("%d\t",gyroADC[0]);
