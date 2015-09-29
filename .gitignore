@@ -1,5 +1,5 @@
 *.elf
 *.hex
 *.o
-/educopter.xcodeproj
+*.a
 /voos
