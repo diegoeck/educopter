@@ -12,6 +12,7 @@
 #include "sensors/sensors.h"
 #include "rc/rc.h"
 #include "pwm/pwm.h"
+#include "led/led.h"
 
 
 
@@ -27,7 +28,6 @@ float erroa[2];
 float errog[2];
 
 int angle[2];
-
 
 float calibra_giro[3];
 float calibra_giro_i[3];
@@ -74,7 +74,7 @@ FILE uart_output = FDEV_SETUP_STREAM(uart_putchar,NULL,_FDEV_SETUP_WRITE);
 
 void setup() {
 
-    DDRB |= 1<<5; // pinMode(13, OUTPUT);  //LED
+    LED_init();
     
     cli(); //noInterrupts();           // disable all interrupts
     
@@ -148,8 +148,8 @@ void loop() {
             motor[2]=0;
             motor[3]=0;
             
+            desliga_led();
             
-            PORTB &= ~(1<<5); //Desliga LED
             
             calibra_giro[0]=0.1*gyroADC[0]+0.9*calibra_giro[0];
             calibra_giro[1]=0.1*gyroADC[1]+0.9*calibra_giro[1];
@@ -170,7 +170,7 @@ void loop() {
             }
             
             
-            PORTB |= 1<<5; //Liga LED
+            liga_led();
             
             
             angulos();

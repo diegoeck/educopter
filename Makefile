@@ -8,6 +8,7 @@ SRCS+=sensors/itg3200.c
 SRCS+=sensors/bma180.c
 SRCS+=rc/rc.c
 SRCS+=pwm/pwm.c
+SRCS+=led/led.c
 
 PROCESSOR=atmega328p
 CLOCK=16000000
@@ -39,10 +40,9 @@ flash:all
 	$(DUDE) -c arduino -p $(PROCESSOR) -b$(SERIAL) -P $(COM) -U flash:w:$(TARGET).hex
 
 clear:
-	rm -rf *.o *.a *.elf
-
-	rm $(SRCS:.c=.o)
+	rm -f *.o *.a *.elf
+	rm -f $(SRCS:.c=.o)
 
 distclear:clear
-	rm $(TARGET).hex
+	rm -f $(TARGET).hex
 

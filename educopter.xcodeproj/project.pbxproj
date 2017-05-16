@@ -8,23 +8,27 @@
 
 /* Begin PBXFileReference section */
 		F16612C21B6123BD004248BC /* codigo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = codigo.c; sourceTree = "<group>"; };
-		F16612C31B6123BD004248BC /* mi2c.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mi2c.c; sourceTree = "<group>"; };
-		F16612C41B6123BD004248BC /* mi2c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mi2c.h; sourceTree = "<group>"; };
-		F16612C51B6123BD004248BC /* uart.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = uart.c; sourceTree = "<group>"; };
-		F16612C61B6123BD004248BC /* uart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = uart.h; sourceTree = "<group>"; };
 		F16612CB1B612A42004248BC /* Makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; path = Makefile; sourceTree = "<group>"; };
+		F1CAA00D1ECB8E8C00EA81F4 /* control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = control.h; path = control/control.h; sourceTree = "<group>"; };
+		F1CAA00E1ECB8E8C00EA81F4 /* pid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = pid.c; path = control/pid.c; sourceTree = "<group>"; };
+		F1CAA00F1ECB8E9A00EA81F4 /* compl3d.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = compl3d.c; path = estimation/compl3d.c; sourceTree = "<group>"; };
+		F1CAA0101ECB8E9A00EA81F4 /* estimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = estimation.h; path = estimation/estimation.h; sourceTree = "<group>"; };
+		F1CAA0111ECB8EA500EA81F4 /* led.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = led.c; path = led/led.c; sourceTree = "<group>"; };
+		F1CAA0121ECB8EA500EA81F4 /* led.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = led.h; path = led/led.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		F16612BB1B612394004248BC = {
 			isa = PBXGroup;
 			children = (
+				F1CAA0111ECB8EA500EA81F4 /* led.c */,
+				F1CAA0121ECB8EA500EA81F4 /* led.h */,
+				F1CAA00F1ECB8E9A00EA81F4 /* compl3d.c */,
+				F1CAA0101ECB8E9A00EA81F4 /* estimation.h */,
+				F1CAA00D1ECB8E8C00EA81F4 /* control.h */,
+				F1CAA00E1ECB8E8C00EA81F4 /* pid.c */,
 				F16612CB1B612A42004248BC /* Makefile */,
 				F16612C21B6123BD004248BC /* codigo.c */,
-				F16612C31B6123BD004248BC /* mi2c.c */,
-				F16612C41B6123BD004248BC /* mi2c.h */,
-				F16612C51B6123BD004248BC /* uart.c */,
-				F16612C61B6123BD004248BC /* uart.h */,
 			);
 			sourceTree = "<group>";
 		};
