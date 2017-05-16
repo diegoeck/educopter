@@ -1,5 +1,13 @@
 TARGET=codigo
-SRCS=$(TARGET).c mi2c.c uart.c 
+SRCS=$(TARGET).c
+SRCS+=lib/mi2c.c 
+SRCS+=lib/uart.c 
+SRCS+=estimation/compl3d.c 
+SRCS+=control/pid.c 
+SRCS+=sensors/itg3200.c 
+SRCS+=sensors/bma180.c
+SRCS+=rc/rc.c
+SRCS+=pwm/pwm.c
 
 PROCESSOR=atmega328p
 CLOCK=16000000
@@ -31,7 +39,9 @@ flash:all
 	$(DUDE) -c arduino -p $(PROCESSOR) -b$(SERIAL) -P $(COM) -U flash:w:$(TARGET).hex
 
 clear:
-	rm -f *.o *.a *.elf
+	rm -rf *.o *.a *.elf
+
+	rm $(SRCS:.c=.o)
 
 distclear:clear
 	rm $(TARGET).hex
