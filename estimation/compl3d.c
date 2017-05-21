@@ -18,17 +18,17 @@ void angulos() {
     angle[1]=atan2(accADC[1],t[1]);
 
     
-    t[0]=(float)gyroADC[0]*cos(anglef[1]/572.9)/sqrt(  1-square( sin(anglef[0]/572.9)*sin(anglef[1]/572.9)  )   );
-    t[1]=(float)gyroADC[2]*sin(anglef[1]/572.9)/sqrt(  1-square( sin(anglef[0]/572.9)*cos(anglef[1]/572.9)  )   );
+    t[0]=gyroADC[0]*cos(anglef[1])/sqrt(  1-square( sin(anglef[0])*sin(anglef[1])  )   );
+    t[1]=gyroADC[2]*sin(anglef[1])/sqrt(  1-square( sin(anglef[0])*cos(anglef[1])  )   );
     t[0]=t[0]+t[1];
     
-    anglef[0]=0.01*(float)angle[0]+0.99*anglef[0]+0.02754*(t[0]);
+    anglef[0]=0.01*angle[0]+0.99*anglef[0]+0.000012020*(t[0]);
     
-    t[0]=(float)gyroADC[1]*cos(anglef[0]/572.9)/sqrt(  1+square(sin(anglef[1]/572.9)*sin(anglef[0]/572.9)   )   );
-    t[1]=(float)gyroADC[2]*sin(anglef[0]/572.9)/sqrt(  1-square(sin(anglef[1]/572.9)*cos(anglef[0]/572.9)   )   );
+    t[0]=gyroADC[1]*cos(anglef[0])/sqrt(  1+square(sin(anglef[1])*sin(anglef[0])   )   );
+    t[1]=gyroADC[2]*sin(anglef[0])/sqrt(  1-square(sin(anglef[1])*cos(anglef[0])   )   );
     t[0]=t[0]-t[1];
 
-    anglef[1]=0.01*(float)angle[1]+0.99*anglef[1]+0.02754*(t[0]);
+    anglef[1]=0.01*angle[1]+0.99*anglef[1]+0.000012020*(t[0]);
 
  
     // Matlab code
@@ -42,4 +42,8 @@ void angulos() {
 */
     // 2000/8192*0.01*10 = 0.024414 //Multiwii *0.99
     // 4/14.375*0.01*10  = 0.02781  //Datasheer *0.99
+    
+    // 1/14.375*pi/180*0.01     = 1.21414208834388e-05 // Codigo novo em radianos *0.99
+    
+    
 }

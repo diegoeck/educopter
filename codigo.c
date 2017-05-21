@@ -27,7 +27,7 @@ float rv[2];
 float erroa[2];
 float errog[2];
 
-int angle[2];
+float angle[2];
 
 float calibra_giro[3];
 float calibra_giro_i[3];
@@ -129,6 +129,7 @@ void loop() {
         Gyro_getADC();
         ACC_getADC();
         
+        armed=1;
         
         if(armed==0)
         {
@@ -180,19 +181,24 @@ void loop() {
         
         
         atualiza_motor();
-        
+        /*
         printf("%d\t",ref[0]);
         printf("%d\t",ref[1]);
         printf("%d\t",ref[2]);
         printf("%d\t",ref[3]);
-
-        printf("%d\t",gyroADC[0]);
-        printf("%d\t",gyroADC[1]);
-        printf("%d\t",gyroADC[2]);
+        */
+        //printf("%d\t",gyroADC[0]);
+        //printf("%d\t",gyroADC[1]);
+        //printf("%d\n",gyroADC[2]);
         
-        printf("%d\t",(int)anglef[0]);
-        printf("%d\n",(int)anglef[1]);
+        printf("%d\t",(int)(anglef[0]*180/3.1415));
+        printf("%d\n",(int)(anglef[1]*180/3.1415));
+        
+        //printf("%d\t",accADC[0]);
+        //printf("%d\t",accADC[1]);
+        //printf("%d\n",accADC[2]);
 
+        
         
     }
 }

@@ -17,7 +17,7 @@ void ACC_init () {
     //control = control | (0x40); // set low pass filter to 150Hz (bits value = 0100xxxx)
     //control = control | (0x50); // set low pass filter to 300Hz (bits value = 0101xxxx)
     //control = control | (0x60); // set low pass filter to 600Hz (bits value = 0110xxxx)
-    control = control | (0x70); // set low pass filter to 1200Hz  (bits value = 0111xxxx)
+    control = control | (0x70); // set low pass filter to 1200Hz  (bits value = 0111xxxx)echo "<h2>Orientações em andamento</h2><h3>Doutorado</h3><ul>";
     i2c_writeReg(BMA180_ADDRESS, 0x20, control);
     
     control = i2c_readReg(BMA180_ADDRESS, 0x30);
@@ -42,9 +42,9 @@ void ACC_getADC () {
     i2c_getSixRawADC(BMA180_ADDRESS,0x02);
     
     //usefull info is on the 14 bits  [2-15] bits  /4 => [0-13] bits  /4 => 12 bit resolution
-    accADC[0]=((rawADC[3]<<8) | rawADC[2])>>4; //Y
-    accADC[1]=((rawADC[1]<<8) | rawADC[0])>>4; //X
-    accADC[2]=((rawADC[5]<<8) | rawADC[4])>>4; //Z
+    accADC[0]=((rawADC[3]<<8) | rawADC[2])>>2; //Y
+    accADC[1]=((rawADC[1]<<8) | rawADC[0])>>2; //X
+    accADC[2]=((rawADC[5]<<8) | rawADC[4])>>2; //Z
     
     //PORQUE DIVIDIR POR 4???? ISTO ESTA ERRADO!
 }

@@ -14,7 +14,7 @@
 // 5        10Hz   1kHz
 // 6        5Hz   1kHz
 
-#define ITG3200_SMPLRT_DIV 9
+#define ITG3200_SMPLRT_DIV 0
 //Fsample=Finternal/(divider+1)
 //se 0 então Fsample = 1kHz/(9+1)=100Hz -> 10ms 
 
