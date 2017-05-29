@@ -4,11 +4,13 @@
 void controle() {
 
     
-    pid[0]=((ref[0]-(int)anglef[0])*2-gyroADC[0])*0.25;
-    pid[1]=((ref[1]-(int)anglef[1])*2-gyroADC[1])*0.25;
-    pid[2]=(ref[3]-gyroADC[2]);
+    //pid[0]=((ref[0]-(int)anglef[0])*2-gyroADC[0])*0.25;
+    //pid[1]=((ref[1]-(int)anglef[1])*2-gyroADC[1])*0.25;
+    //pid[2]=(ref[3]-gyroADC[2]);
 
-    
+    pid[0]=(   (ref[0]*7-(int)(anglef[0]*2800) )   -gyroADC[0])*0.1;
+    pid[1]=(   (ref[1]*7-(int)(anglef[1]*2800) )   -gyroADC[1])*0.1;
+    pid[2]=(   (ref[3]*7-(int)(anglef[2]*2800) )   -gyroADC[2])*0.1;
   
 }
 

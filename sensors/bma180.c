@@ -17,7 +17,7 @@ void ACC_init () {
     //control = control | (0x40); // set low pass filter to 150Hz (bits value = 0100xxxx)
     //control = control | (0x50); // set low pass filter to 300Hz (bits value = 0101xxxx)
     //control = control | (0x60); // set low pass filter to 600Hz (bits value = 0110xxxx)
-    control = control | (0x70); // set low pass filter to 1200Hz  (bits value = 0111xxxx)echo "<h2>Orientações em andamento</h2><h3>Doutorado</h3><ul>";
+    control = control | (0x70); // set low pass filter to 1200Hz  (bits value = 0111xxxx)
     i2c_writeReg(BMA180_ADDRESS, 0x20, control);
     
     control = i2c_readReg(BMA180_ADDRESS, 0x30);

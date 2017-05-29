@@ -54,6 +54,8 @@ int pid[3]={0,0,0};
 uint8_t rawADC[6];
 int16_t gyroADC[3];
 int16_t accADC[3];
+int16_t magADC[3];
+
 
 
 
@@ -101,6 +103,7 @@ void setup() {
     TWBR = ((F_CPU / 400000L) - 16) / 2; // change the I2C clock rate to 400kHz
     Gyro_init();
     ACC_init();
+    Mag_init();
     
     
 }
@@ -122,14 +125,14 @@ void loop() {
 
         roda=0;
 
-        printf("%d\t",ocioso);
+        //printf("%d\t",ocioso);
         ocioso=0;
         
         
         Gyro_getADC();
         ACC_getADC();
+        Mag_getADC();
         
-        armed=1;
         
         if(armed==0)
         {
@@ -181,22 +184,29 @@ void loop() {
         
         
         atualiza_motor();
-        /*
-        printf("%d\t",ref[0]);
-        printf("%d\t",ref[1]);
-        printf("%d\t",ref[2]);
-        printf("%d\t",ref[3]);
-        */
-        //printf("%d\t",gyroADC[0]);
-        //printf("%d\t",gyroADC[1]);
+        
+        //printf("%d\t",ref[0]);
+        //printf("%d\t",ref[1]);
+        //printf("%d\t",ref[2]);
+        //printf("%d\n",ref[3]);
+        
+        //printf("%d\t",magADC[0]);
+        //printf("%d\t",magADC[1]);
+        //printf("%d\n",magADC[2]);
+
+        //printf("%d;",gyroADC[0]);
+        //printf("%d;",gyroADC[1]);
         //printf("%d\n",gyroADC[2]);
-        
-        printf("%d\t",(int)(anglef[0]*180/3.1415));
-        printf("%d\n",(int)(anglef[1]*180/3.1415));
-        
+
         //printf("%d\t",accADC[0]);
         //printf("%d\t",accADC[1]);
         //printf("%d\n",accADC[2]);
+
+        
+        printf("%d\t",(int)(anglef[0]*180/3.1415));
+        printf("%d\t",(int)(anglef[1]*180/3.1415));
+        printf("%d\n",(int)(anglef[2]*180/3.1415));
+        
 
         
         

@@ -4,6 +4,7 @@
 
 
 void angulos() {
+    
     float t[2];
 
 
@@ -30,6 +31,11 @@ void angulos() {
 
     anglef[1]=0.01*angle[1]+0.99*anglef[1]+0.000012020*(t[0]);
 
+    
+    
+    anglef[2]=-atan2(magADC[0],magADC[2]);
+
+    
  
     // Matlab code
     // v1(i+1)=0.01*aa(i)+0.99*v1(i)+0.99*( VarName1(i)*cos(v2(i))/sqrt(1-(sin(v1(i))*sin(v2(i)))^2)+VarName3(i)*sin(v2(i))/sqrt(1-(sin(v1(i))*cos(v2(i)))^2) )/m*pi/2 ;

@@ -6,6 +6,7 @@ SRCS+=estimation/compl3d.c
 SRCS+=control/pid.c 
 SRCS+=sensors/itg3200.c 
 SRCS+=sensors/bma180.c
+SRCS+=sensors/hmc5883l.c
 SRCS+=rc/rc.c
 SRCS+=pwm/pwm.c
 SRCS+=led/led.c

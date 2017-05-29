@@ -4,10 +4,10 @@
 
 #define ITG3200_ADDRESS 0X68
 
-#define ITG3200_DLPF_CFG   1
+#define ITG3200_DLPF_CFG   2
 // DLPF_CFG FILTER  Sampling Rate
 // 0        256Hz   8kHz   -> Tem grafico de bode estranho, nao recomendo.
-// 1        188z   1kHz
+// 1        188Hz   1kHz
 // 2        98Hz   1kHz
 // 3        42Hz   1kHz
 // 4        20Hz   1kHz
