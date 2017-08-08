@@ -46,7 +46,7 @@ int ref[4]={0,0,0,0};
 int pino[4]={0,0,0,0};
 int pid[3]={0,0,0};
 
-//float erro1[3]={0,0,0};
+int erro_ga[3]={0,0,0};
 //float erro2[3]={0,0,0};
 //float erro3[3]={0,0,0};
 
@@ -203,11 +203,17 @@ void loop() {
         //printf("%d\n",accADC[2]);
 
         
-        printf("%d\t",(int)(anglef[0]*180/3.1415));
-        printf("%d\t",(int)(anglef[1]*180/3.1415));
-        printf("%d\n",(int)(anglef[2]*180/3.1415));
+        //printf("%d\t",(int)(anglef[0]*180/3.1415));
+        //printf("%d\t",(int)(anglef[1]*180/3.1415));
+        //printf("%d\n",(int)(anglef[2]*180/3.1415));
         
 
+        printf("%d\t",ref[0]);
+        printf("%d\t",(int)(anglef[0]*500));
+        printf("%d\t",gyroADC[0]);
+        printf("%d\n",pid[0]);
+
+        
         
         
     }
